@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Falcon Football Study</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #ddd;
+      padding: 18px 30px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-top: 5px;
+    }
+
+    main {
+      max-width: 850px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,.05);
+    }
+
+    .question {
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      margin: 10px 0;
+      background: #f8f8f8;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    button:hover {
+      background: #eee;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .progress {
+      color: #666;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Football Strategy Study</h1>
+  <div class="subtitle">Review football concepts and test your knowledge.</div>
+</header>
+
+<main>
+
+  <div class="card">
+    <h2>Football Knowledge Check</h2>
+    <p class="progress" id="progress"></p>
+
+    <div class="question" id="question"></div>
+
+    <button onclick="answer(0)" id="a0"></button>
+    <button onclick="answer(1)" id="a1"></button>
+    <button onclick="answer(2)" id="a2"></button>
+    <button onclick="answer(3)" id="a3"></button>
+
+    <div id="result"></div>
+  </div>
+
+</main>
+
+<script>
+
+const questions = [
+  {
+    q: "How many points is a touchdown worth?",
+    a: ["2", "3", "6", "7"],
+    correct: 2
+  },
+  {
+    q: "How many downs does an offense normally have to get 10 yards?",
+    a: ["2", "3", "4", "5"],
+    correct: 2
+  },
+  {
+    q: "What is a pass caught behind the line of scrimmage commonly called?",
+    a: ["Screen pass", "Field goal", "Punt", "Kickoff"],
+    correct: 0
+  },
+  {
+    q: "Which position usually throws the football?",
+    a: ["Quarterback", "Center", "Kicker", "Linebacker"],
+    correct: 0
+  },
+  {
+    q: "What happens after a successful first down?",
+    a: ["The drive ends", "The offense gets a new set of downs", "The opponent scores", "The game ends"],
+    correct: 1
+  }
+];
+
+let current = 0;
+let score = 0;
+
+function loadQuestion() {
+
+  const q = questions[current];
+
+  document.getElementById("progress").innerText =
+    "Question " + (current + 1) + " of " + questions.length;
+
+  document.getElementById("question").innerText = q.q;
+
+  for (let i = 0; i < 4; i++) {
+    document.getElementById("a" + i).innerText = q.a[i];
+    document.getElementById("a" + i).disabled = false;
+  }
+
+  document.getElementById("result").innerText = "";
+}
+
+function answer(choice) {
+
+  const q = questions[current];
+
+  for (let i = 0; i < 4; i++) {
+    document.getElementById("a" + i).disabled = true;
+  }
+
+  if (choice === q.correct) {
+    score++;
+    document.getElementById("result").innerText = "Correct!";
+  } else {
+    document.getElementById("result").innerText =
+      "Not quite. The correct answer is " + q.a[q.correct] + ".";
+  }
+
+  setTimeout(() => {
+
+    current++;
+
+    if (current >= questions.length) {
+
+      document.getElementById("question").innerText =
+        "Quiz complete!";
+
+      document.getElementById("progress").innerText =
+        "Final score: " + score + "/" + questions.length;
+
+      document.getElementById("result").innerText =
+        "Nice work! Refresh the page to try again.";
+
+      for (let i = 0; i < 4; i++) {
+        document.getElementById("a" + i).style.display = "none";
+      }
+
+    } else {
+      loadQuestion();
+    }
+
+  }, 1200);
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
